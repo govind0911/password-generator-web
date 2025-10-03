@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Password Generator</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      font-family: 'Consolas', monospace;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #00f5ff;
+      text-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff, 0 0 30px #00f5ff;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      margin: 15px 0;
+      text-align: left;
+      display: inline-block;
+    }
+
+    label {
+      display: block;
+      margin: 5px 0;
+      color: #ff1493;
+      text-shadow: 0 0 5px #ff1493, 0 0 10px #ff1493;
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 5px;
+      background: #1a1a1a;
+      border: none;
+      color: #39ff14;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #00f5ff;
+      color: #000;
+      text-shadow: 0 0 5px #fff;
+      box-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #39ff14;
+      box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: none;
+      background: #1a1a1a;
+      color: #39ff14;
+      text-align: center;
+      box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+    }
+  </style>
+</head>
+<body>
+  <h1>⚡ Neon Password Generator ⚡</h1>
+
+  <div>
+    <label for="length">Password Length:</label>
+    <input type="number" id="length" value="12" min="4" max="64">
+  </div>
+
+  <div class="options">
+    <label><input type="checkbox" id="uppercase" checked> Include Uppercase</label>
+    <label><input type="checkbox" id="lowercase" checked> Include Lowercase</label>
+    <label><input type="checkbox" id="numbers" checked> Include Numbers</label>
+    <label><input type="checkbox" id="symbols"> Include Symbols</label>
+  </div>
+
+  <div>
+    <button onclick="generatePassword()">Generate</button>
+    <button onclick="copyPassword()">Copy</button>
+  </div>
+
+  <input type="text" id="result" readonly placeholder="Your password will appear here">
+
+  <script>
+    function generatePassword() {
+      const length = document.getElementById("length").value;
+      const upper = document.getElementById("uppercase").checked;
+      const lower = document.getElementById("lowercase").checked;
+      const numbers = document.getElementById("numbers").checked;
+      const symbols = document.getElementById("symbols").checked;
+
+      let chars = "";
+      if (upper) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      if (lower) chars += "abcdefghijklmnopqrstuvwxyz";
+      if (numbers) chars += "0123456789";
+      if (symbols) chars += "!@#$%^&*()_+{}[]|:;<>,.?/~`-=";
+
+      if (!chars) {
+        alert("Please select at least one option!");
+        return;
+      }
+
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      document.getElementById("result").value = password;
+    }
+
+    function copyPassword() {
+      const result = document.getElementById("result");
+      if (result.value) {
+        result.select();
+        document.execCommand("copy");
+        alert("Password copied to clipboard!");
+      } else {
+        alert("No password to copy!");
+      }
+    }
+  </script>
+</body>
+</html>
